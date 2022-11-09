@@ -1,3 +1,7 @@
-selenium
+selenium~=4.6.0
 pandas
 youtube_dl
+cv2
+scendetect
+opencv-python~=4.6.0.66
+scenedetect~=0.6.0.3
