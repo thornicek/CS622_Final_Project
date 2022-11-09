@@ -2,11 +2,14 @@ from __future__ import unicode_literals
 from typing import List, Optional
 import youtube_dl
 
+
+
 from selenium import webdriver
 from selenium.webdriver.remote.webelement import WebElement
 
 
 keyword = "pure water"
+
 
 
 def main():
@@ -31,9 +34,9 @@ def get_links(query: str) -> List[str]:
     driver.get("https://www.youtube.com/results?search_query=" + url_params)
 
     # find url by xpath and put into links list
-    user_data: List[WebElement] = driver.find_elements("xpath", '//*[@id="video-title"]')
+    video_elements: List[WebElement] = driver.find_elements("xpath", '//*[@id="video-title"]')
     links: List[str] = []
-    for web_element in user_data:
+    for web_element in video_elements:
         links.append(web_element.get_attribute('href'))
     # print links list
     print(links)
@@ -42,8 +45,8 @@ def get_links(query: str) -> List[str]:
     return links
 
 
-# method to download videos from list
-def download_videos(video_links_list: List[str], download_options: dict = {}) -> None:
+# method to download videos from list into Downloads dir
+def download_videos(video_links_list: List[str], download_options: dict = { 'outtmpl':'Downloads/%(title)s.%(ext)s' }) -> None:
     """
     Given a list of youtube links, download the videos.
 
@@ -51,11 +54,12 @@ def download_videos(video_links_list: List[str], download_options: dict = {}) ->
     :param download_options: dict containing download options regarding video/sound quality
     :return: None
     """
-    # TODO give user option to specify folder to download to
+
+
     for video_link in video_links_list:
         with youtube_dl.YoutubeDL(download_options) as ydl:
             ydl.download([f'{video_link}'])
 
 
-if __name__ == "main":
+if __name__ == "__main__":
     main()
